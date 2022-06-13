@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
 
@@ -23,7 +23,7 @@ public class StudentController {
         return ResponseEntity.ok(createdStudent);
     }
 
-    @GetMapping("{studentId}")
+    @GetMapping("/{studentId}")
     public ResponseEntity getStudentById(@PathVariable Long studentId) {
         Student student = studentService.getStudentById(studentId);
         if (student == null) {
@@ -32,18 +32,18 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity updateStudent(@RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(student.getId(), student);
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("{studentId}")
+    @DeleteMapping("/{studentId}")
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(studentService.deleteStudent(studentId));
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<HashMap<Long, Student>> getAllStudent() {
         return ResponseEntity.ok(studentService.getAllStudent());
     }
@@ -52,9 +52,6 @@ public class StudentController {
     @GetMapping("/age")
     public ResponseEntity getStudentByAge(@RequestParam int studentAge) {
         List studentByAgeList = studentService.getStudentByAge(studentAge);
-        if (studentByAgeList.size() == 0) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(studentByAgeList);
     }
 }

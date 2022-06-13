@@ -14,33 +14,33 @@ import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
-   private final Map<Long, Faculty> facultyMap = new HashMap<>();
-   private Long facultyId = 0L;
+    private final Map<Long, Faculty> facultyMap = new HashMap<>();
+    private Long facultyId = 0L;
 
-   public Faculty createFaculty(Faculty faculty) {
-      facultyId++;
-      Faculty createdFaculty=new Faculty(facultyId,faculty.getName(),faculty.getColor());
-      facultyMap.put(facultyId, createdFaculty);
-      return createdFaculty;
-   }
+    public Faculty createFaculty(Faculty faculty) {
+        facultyId++;
+        faculty.setId(facultyId);
+        facultyMap.put(facultyId, faculty);
+        return faculty;
+    }
 
-   public Faculty  getFacultyById(Long facultyId) {
-      return facultyMap.get(facultyId);
-   }
+    public Faculty getFacultyById(Long facultyId) {
+        return facultyMap.get(facultyId);
+    }
 
-   public Faculty  updateFaculty(Long facultyId, Faculty faculty) {
-      facultyMap.put(facultyId, faculty);
-      return faculty;
-   }
+    public Faculty updateFaculty(Long facultyId, Faculty faculty) {
+        facultyMap.put(facultyId, faculty);
+        return faculty;
+    }
 
-   public Faculty  deleteFaculty(Long facultyId) {
-      return facultyMap.remove(facultyId);
-   }
+    public Faculty deleteFaculty(Long facultyId) {
+        return facultyMap.remove(facultyId);
+    }
 
-   public List getFacultyByColor(String facultyColor) {
-      List facultyColorList = facultyMap.entrySet().stream ()
-              .filter(e->e.getValue().getColor().equals(facultyColor))
-              .collect(Collectors.toList());
-      return facultyColorList;
-   }
+    public List<Student> getFacultyByColor(String facultyColor) {
+        List facultyColorList = facultyMap.entrySet().stream()
+                .filter(e -> e.getValue().getColor().equals(facultyColor))
+                .collect(Collectors.toList());
+        return facultyColorList;
+    }
 }

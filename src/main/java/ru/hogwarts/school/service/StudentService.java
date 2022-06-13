@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
     private final HashMap<Long, Student> studentMap = new HashMap<>();
-    private long studentId = 0;
+    private Long studentId = 0L;
 
     public Student createStudent(Student student) {
         studentId=studentId+1;
-        Student createdStudent = new Student(studentId, student.getName(), student.getAge());
-        studentMap.put(studentId, createdStudent);
+       student.setId(studentId);
+        studentMap.put(studentId, student);
         return student;
     }
 
@@ -36,7 +36,7 @@ public class StudentService {
         return studentMap.remove(studentId);
     }
 
-    public List getStudentByAge(int studentAge) {
+    public List<Student> getStudentByAge(int studentAge) {
         List studentAgeList = studentMap.entrySet().stream()
                 .filter(e -> e.getValue().getAge() == studentAge)
                 .collect(Collectors.toList());
