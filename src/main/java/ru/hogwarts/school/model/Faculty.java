@@ -14,6 +14,9 @@ public class Faculty {
     private String name;
     private String color;
 
+    public Faculty() {
+    }
+
     public Long getId() {
         return id;
     }
