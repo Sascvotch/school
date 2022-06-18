@@ -1,46 +1,37 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.FacultyRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class FacultyService {
-    private final Map<Long, Faculty> facultyMap = new HashMap<>();
-    private Long facultyId = 0L;
+    private final FacultyRepository facultyRepository;
 
-    public Faculty createFaculty(Faculty faculty) {
-        facultyId++;
-        faculty.setId(facultyId);
-        facultyMap.put(facultyId, faculty);
-        return faculty;
+    public FacultyService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
 
-    public Faculty getFacultyById(Long facultyId) {
-        return facultyMap.get(facultyId);
+    public Faculty createFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
+    }
+
+    public Optional<Faculty> getFacultyById(Long facultyId) {
+        return facultyRepository.findById(facultyId);
     }
 
     public Faculty updateFaculty(Long facultyId, Faculty faculty) {
-        facultyMap.put(facultyId, faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
-    public Faculty deleteFaculty(Long facultyId) {
-        return facultyMap.remove(facultyId);
+    public void deleteFaculty(Long facultyId) {
+        facultyRepository.deleteById(facultyId);
     }
 
-    public List<Student> getFacultyByColor(String facultyColor) {
-        List facultyColorList = facultyMap.entrySet().stream()
-                .filter(e -> e.getValue().getColor().equals(facultyColor))
-                .collect(Collectors.toList());
-        return facultyColorList;
+    public List<Faculty> getFacultyByColor(String facultyColor) {
+        return facultyRepository.findByColor(facultyColor);
     }
 }
