@@ -7,6 +7,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -25,7 +26,7 @@ public class StudentController {
 
     @GetMapping("/{studentId}")
     public ResponseEntity getStudentById(@PathVariable Long studentId) {
-        Student student = studentService.getStudentById(studentId);
+        Optional <Student> student = studentService.getStudentById(studentId);
         if (student == null) {
             return ResponseEntity.notFound().build();
         }
@@ -34,17 +35,18 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity updateStudent(@RequestBody Student student) {
-        Student updatedStudent = studentService.updateStudent(student.getId(), student);
+        Student updatedStudent = studentService.updateStudent(student);
         return ResponseEntity.ok(updatedStudent);
     }
 
     @DeleteMapping("/{studentId}")
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
-        return ResponseEntity.ok(studentService.deleteStudent(studentId));
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<HashMap<Long, Student>> getAllStudent() {
+    public ResponseEntity<List<Student>> getAllStudent() {
         return ResponseEntity.ok(studentService.getAllStudent());
     }
 
