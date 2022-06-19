@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -24,7 +25,7 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}")
-    public ResponseEntity getStudentById(@PathVariable Long studentId) {
+    public ResponseEntity <Optional<Student>> getStudentById(@PathVariable Long studentId) {
         Optional<Student> student = studentService.getStudentById(studentId);
         if (student == null) {
             return ResponseEntity.notFound().build();
@@ -33,13 +34,13 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity updateStudent(@RequestBody Student student) {
+    public ResponseEntity <Student> updateStudent(@RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(student);
         return ResponseEntity.ok(updatedStudent);
     }
 
     @DeleteMapping("/{studentId}")
-    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+    public ResponseEntity <Student> deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
     }
@@ -51,7 +52,7 @@ public class StudentController {
 
 
     @GetMapping("/age")
-    public ResponseEntity getStudentByAge(@RequestParam Integer studentAgeMin, @RequestParam(required = false) Integer studentAgeMax) {
+    public ResponseEntity <List<Student>> getStudentByAge(@RequestParam Integer studentAgeMin, @RequestParam(required = false) Integer studentAgeMax) {
         if (studentAgeMax == null) {
             return ResponseEntity.ok(studentService.getStudentByAge(studentAgeMin));
         } else {
@@ -60,7 +61,7 @@ public class StudentController {
     }
 
     @GetMapping("/faculty")
-    public ResponseEntity getFacultyByStudent(@RequestParam Long studentId) {
+    public ResponseEntity <Faculty> getFacultyByStudent(@RequestParam Long studentId) {
         Optional<Student> student = studentService.getStudentById(studentId);
         return ResponseEntity.ok(student.get().getFaculty());
     }

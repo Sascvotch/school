@@ -8,12 +8,13 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class FacultyService {
 
-private StudentRepository studentRepository;
-   private  StudentService studentService = new StudentService(studentRepository);
+   // private StudentRepository studentRepository;
+   private final StudentService studentService;// = new StudentService(studentRepository);
 
     private final FacultyRepository facultyRepository;
 
@@ -42,13 +43,14 @@ private StudentRepository studentRepository;
         return facultyRepository.findByColor(facultyColor);
     }
 
-    public List<Faculty> getFacultyByNameOrColor(String facultyName, String facultyColor) {
-        return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(facultyName, facultyColor);
+    public List<Faculty> getFacultyByNameOrColor(String facultyNameOrColor) {
+        return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(facultyNameOrColor, facultyNameOrColor);
     }
-  public List<Student> getStudentsByFaculty (Long facultyId) {
-     return (List<Student>) studentService.getStudentByFaculty(facultyId);
+   public List<Student> getStudentsByFaculty (Long facultyId) {
+       return  studentService.getStudentByFaculty(facultyId);
   }
-  // public Faculty getFacultyByStudent (Long studentId){
-    //  return facultyRepository.findFacultiesByStudent(studentId);
-    //}
+  //  public Set<Student> getStudentsByFaculty1 (Long facultyId) {
+    //    return facultyRepository.findById(facultyId).get().getStudents();
+   //}
+
 }

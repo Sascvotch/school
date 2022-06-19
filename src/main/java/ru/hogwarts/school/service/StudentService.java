@@ -11,16 +11,16 @@ import java.util.Optional;
 public class StudentService {
 
 
-  //  private FacultyRepository facultyRepository;
+    //  private FacultyRepository facultyRepository;
     //private FacultyService facultyService = new FacultyService(facultyRepository);
 
 
     private final StudentRepository studentRepository;
 
-        public StudentService(StudentRepository studentRepository) {
-            this.studentRepository = studentRepository;
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
 
-        }
+    }
 
     public Student createStudent(Student student) {
         return studentRepository.save(student);
@@ -53,8 +53,7 @@ public class StudentService {
     public List<Student> getStudentByFaculty(Long facultyId) {
         return studentRepository.findStudentByFaculty_Id(facultyId);
     }
-   //public Faculty getFacultyByStudent(Long studentId) {
-     //  return facultyService.getFacultyByStudent(studentId);
-   //}
+    //public Faculty getFacultyByStudent(Long studentId) {
+    //  return facultyService.getFacultyByStudent(studentId);
+    //}
 }
-
