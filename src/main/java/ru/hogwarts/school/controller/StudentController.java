@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,7 @@ public class StudentController {
 
     @GetMapping("/{studentId}")
     public ResponseEntity getStudentById(@PathVariable Long studentId) {
-        Optional <Student> student = studentService.getStudentById(studentId);
+        Optional<Student> student = studentService.getStudentById(studentId);
         if (student == null) {
             return ResponseEntity.notFound().build();
         }
@@ -52,8 +51,17 @@ public class StudentController {
 
 
     @GetMapping("/age")
-    public ResponseEntity getStudentByAge(@RequestParam int studentAge) {
-        List studentByAgeList = studentService.getStudentByAge(studentAge);
-        return ResponseEntity.ok(studentByAgeList);
+    public ResponseEntity getStudentByAge(@RequestParam Integer studentAgeMin, @RequestParam(required = false) Integer studentAgeMax) {
+        if (studentAgeMax == null) {
+            return ResponseEntity.ok(studentService.getStudentByAge(studentAgeMin));
+        } else {
+            return ResponseEntity.ok(studentService.getStudentByAgeBetween(studentAgeMin, studentAgeMax));
+        }
+    }
+
+    @GetMapping("/faculty")
+    public ResponseEntity getFacultyByStudent(@RequestParam Long studentId) {
+        Optional<Student> student = studentService.getStudentById(studentId);
+        return ResponseEntity.ok(student.get().getFaculty());
     }
 }

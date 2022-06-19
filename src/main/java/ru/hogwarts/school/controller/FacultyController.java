@@ -18,13 +18,13 @@ public class FacultyController {
     }
 
     @PostMapping
-    public ResponseEntity createFaculty(@RequestBody Faculty faculty) {
+    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
         Faculty createdFaculty = facultyService.createFaculty(faculty);
         return ResponseEntity.ok(createdFaculty);
     }
 
     @GetMapping("/{facultyId}")
-    public ResponseEntity getFaculty(@PathVariable Long facultyId) {
+    public ResponseEntity getFacultyById(@PathVariable Long facultyId) {
        Optional <Faculty> faculty =facultyService.getFacultyById(facultyId);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
@@ -45,8 +45,17 @@ public class FacultyController {
     }
 
     @GetMapping("/color")
-    public ResponseEntity getFacultyByColor(@RequestParam String facultyColor) {
-        List facultyByColorList = facultyService.getFacultyByColor(facultyColor);
-               return ResponseEntity.ok(facultyByColorList);
+    public ResponseEntity getFacultyByColorAndName( @RequestParam(required = false)  String facultyName, @RequestParam String facultyColor) {
+        if (facultyName == null) {
+            return ResponseEntity.ok(facultyService.getFacultyByColor(facultyColor));
+        } else {
+            return ResponseEntity.ok(facultyService.getFacultyByNameOrColor(facultyName, facultyColor));
+        }
     }
+
+   @GetMapping("/students")
+  public ResponseEntity getStudentByFaculty(@RequestParam Long facultyId) {
+    return ResponseEntity.ok(facultyService.getStudentsByFaculty(facultyId));
+  }
+
 }
