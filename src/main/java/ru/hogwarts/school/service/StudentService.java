@@ -50,9 +50,9 @@ public class StudentService {
         return studentRepository.findByAgeBetween(ageMin, ageMax);
     }
 
-    public List<Student> getStudentByFaculty(Long facultyId) {
-        return studentRepository.findStudentByFaculty_Id(facultyId);
-    }
+   // public List<Student> getStudentByFaculty(Long facultyId) {
+  //      return studentRepository.findStudentByFaculty_Id(facultyId);
+  //  }
     //public Faculty getFacultyByStudent(Long studentId) {
     //  return facultyService.getFacultyByStudent(studentId);
     //}

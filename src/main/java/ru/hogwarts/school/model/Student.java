@@ -17,6 +17,10 @@ public class Student {
 
     public Student() {
     }
+    public Object clone(Student student) {
+       Student  copyStudent = student;
+        return copyStudent;
+    }
 
     public Faculty getFaculty() {
         return faculty;

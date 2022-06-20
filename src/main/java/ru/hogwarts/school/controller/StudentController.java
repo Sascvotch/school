@@ -25,12 +25,10 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}")
-    public ResponseEntity <Optional<Student>> getStudentById(@PathVariable Long studentId) {
-        Optional<Student> student = studentService.getStudentById(studentId);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public ResponseEntity<Student> getStudentById(@PathVariable Long studentId) {
+        return studentService.getStudentById(studentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping

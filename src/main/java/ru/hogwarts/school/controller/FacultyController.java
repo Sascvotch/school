@@ -51,13 +51,13 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getFacultyByNameOrColor(facultyNameOrColor));
     }
 
-    @GetMapping("/students")
-    public ResponseEntity<List<Student>> getStudentByFaculty(@RequestParam Long facultyId) {
-        return ResponseEntity.ok(facultyService.getStudentsByFaculty(facultyId));
-    }
-  //  @GetMapping("/studentsSet")
-   // public ResponseEntity<Set<Student>> getStudentByFacultySet(@RequestParam Long facultyId) {
-    //    return ResponseEntity.ok(facultyService.getStudentsByFaculty1(facultyId));
-    //}
+   // @GetMapping("/students")
+ //   public ResponseEntity<List<Student>> getStudentByFaculty(@RequestParam Long facultyId) {
+ //       return ResponseEntity.ok(facultyService.getStudentsByFaculty(facultyId));
+  //  }
+    @GetMapping("/studentsSet")
+   public ResponseEntity<Set<Student>> getStudentByFacultySet(@RequestParam Long facultyId) {
+      return ResponseEntity.ok(facultyService.getStudentsByFaculty1(facultyId));
+  }
 
 }
