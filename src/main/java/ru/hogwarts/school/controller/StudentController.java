@@ -60,7 +60,7 @@ public class StudentController {
 
     @GetMapping("/faculty")
     public ResponseEntity <Faculty> getFacultyByStudent(@RequestParam Long studentId) {
-        Optional<Student> student = studentService.getStudentById(studentId);
-        return ResponseEntity.ok(student.get().getFaculty());
+        Student student = studentService.getStudentById(studentId).orElseThrow();
+        return ResponseEntity.ok(student.getFaculty());
     }
 }

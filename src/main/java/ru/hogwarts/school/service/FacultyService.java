@@ -13,14 +13,11 @@ import java.util.Set;
 @Service
 public class FacultyService {
 
-   // private StudentRepository studentRepository;
-  // private final StudentService studentService;// = new StudentService(studentRepository);
 
     private final FacultyRepository facultyRepository;
 
-    public FacultyService(FacultyRepository facultyRepository){//, StudentService studentService) {
+    public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
-        // this.studentService=studentService;
     }
 
     public Faculty createFaculty(Faculty faculty) {
@@ -46,11 +43,9 @@ public class FacultyService {
     public List<Faculty> getFacultyByNameOrColor(String facultyNameOrColor) {
         return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(facultyNameOrColor, facultyNameOrColor);
     }
-   //public List<Student> getStudentsByFaculty (Long facultyId) {
-   //    return  studentService.getStudentByFaculty(facultyId);
-  //}
-    public Set<Student> getStudentsByFaculty1 (Long facultyId) {
-      return facultyRepository.findById(facultyId).get().getStudents();
-  }
+
+    public Set<Student> getStudentsByFaculty(Long facultyId) {
+        return facultyRepository.findById(facultyId).get().getStudents();
+    }
 
 }
