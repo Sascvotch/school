@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -45,7 +46,6 @@ public class FacultyService {
     }
 
     public Set<Student> getStudentsByFaculty(Long facultyId) {
-        return facultyRepository.findById(facultyId).get().getStudents();
+      return facultyRepository.findById(facultyId).orElseThrow(()->new FacultyNotFoundException()).getStudents();
     }
-
 }
