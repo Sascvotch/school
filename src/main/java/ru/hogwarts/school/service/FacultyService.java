@@ -1,14 +1,20 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
+import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class FacultyService {
+
+
     private final FacultyRepository facultyRepository;
 
     public FacultyService(FacultyRepository facultyRepository) {
@@ -33,5 +39,13 @@ public class FacultyService {
 
     public List<Faculty> getFacultyByColor(String facultyColor) {
         return facultyRepository.findByColor(facultyColor);
+    }
+
+    public List<Faculty> getFacultyByNameOrColor(String facultyNameOrColor) {
+        return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(facultyNameOrColor, facultyNameOrColor);
+    }
+
+    public Set<Student> getStudentsByFaculty(Long facultyId) {
+      return facultyRepository.findById(facultyId).orElseThrow(()->new FacultyNotFoundException()).getStudents();
     }
 }
