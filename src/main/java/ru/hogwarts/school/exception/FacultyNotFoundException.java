@@ -1,4 +1,4 @@
-package ru.hogwarts.school.service;
+package ru.hogwarts.school.exception;
 
 import org.webjars.NotFoundException;
 
