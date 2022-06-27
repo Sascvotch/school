@@ -11,9 +11,6 @@ import java.util.Optional;
 public class StudentService {
 
 
-    //  private FacultyRepository facultyRepository;
-    //private FacultyService facultyService = new FacultyService(facultyRepository);
-
 
     private final StudentRepository studentRepository;
 
