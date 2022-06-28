@@ -47,23 +47,23 @@ public class SchoolApplicationTests {
         Assertions.assertThat(studentController).isNotNull();
     }
 
-    Student student = new Student();
-    Long id = 100L;
+    private static final Student student = new Student();
+    private static final Long id = 100L;
 
 
     @BeforeEach
     void setUp() {
+        when(studentRepository.findById(id)).thenReturn(Optional.of(student));
+        when(studentRepository.save(student)).thenReturn(student);
         studentService.createStudent(student);
         student.setId(id);
         student.setName("student1");
         student.setAge(23);
-        when(studentRepository.findById(id)).thenReturn(Optional.of(student));
-        when(studentRepository.save(student)).thenReturn(student);
     }
 
     @AfterEach
     void tearUp() {
-        studentService.deleteStudent(100L);
+        studentService.deleteStudent(id);
     }
 
     @Test
