@@ -17,25 +17,28 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avatar")
 public class AvatarController {
-private final StudentService studentService;
+    private final StudentService studentService;
     private final AvatarService avatarService;
 
     public AvatarController(AvatarService avatarService, StudentService studentService) {
         this.avatarService = avatarService;
-        this.studentService=studentService;
+        this.studentService = studentService;
     }
-    @PostMapping(value = "/{id}/avatar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+
+    @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity uploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatarFile) throws IOException {
-        if (avatarFile.getSize()>1024*300){
-            return  ResponseEntity.badRequest().body("File is to big");
+        if (avatarFile.getSize() > 1024 * 300) {
+            return ResponseEntity.badRequest().body("File is to big");
         }
-        avatarService.uploadAvatar(id,avatarFile);
+        avatarService.uploadAvatar(id, avatarFile);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping(value = "/{id}/avatar-from-db")
     public ResponseEntity downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
@@ -44,16 +47,23 @@ private final StudentService studentService;
         headers.setContentLength(avatar.getPrewiew().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getPrewiew());
     }
+
     @GetMapping(value = "/{id}/avatar-from-file")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarService.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
-        try(InputStream is = Files.newInputStream(path);
-            OutputStream os = response.getOutputStream();) {
+        try (InputStream is = Files.newInputStream(path);
+             OutputStream os = response.getOutputStream();) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<Avatar>> findAll(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        List<Avatar> avatar = avatarService.findAll(pageNumber, pageSize);
+        return ResponseEntity.ok(avatar);
     }
 }

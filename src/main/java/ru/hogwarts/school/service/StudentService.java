@@ -48,4 +48,17 @@ public class StudentService {
         return studentRepository.findByAgeBetween(ageMin, ageMax);
     }
 
+    public Integer getCountStudent() {
+        return studentRepository.getCountStudent();
+    }
+
+    public Integer getAVGAgeStudent() {
+        return studentRepository.getAVGAgeStudent();
+    }
+
+    public List<Student> getMAXIdStudent() {
+        return studentRepository.getMAXIdStudent();
+    }
+
+
 }

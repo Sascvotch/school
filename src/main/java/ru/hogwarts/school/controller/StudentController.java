@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{studentId}")
-    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+    public ResponseEntity <Student> deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
     }
@@ -63,4 +63,18 @@ public class StudentController {
         return ResponseEntity.ok(student.getFaculty());
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCountStudent() {
+        return ResponseEntity.ok(studentService.getCountStudent());
+    }
+
+    @GetMapping("/AVG-age")
+    public ResponseEntity<Integer> getAVGAgeStudent() {
+        return ResponseEntity.ok(studentService.getAVGAgeStudent());
+    }
+
+    @GetMapping("/MAX-id")
+    public ResponseEntity<List<Student>> getMAXIdStudent() {
+        return ResponseEntity.ok(studentService.getMAXIdStudent());
+    }
 }
