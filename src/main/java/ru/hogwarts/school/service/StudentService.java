@@ -52,7 +52,7 @@ public class StudentService {
         return studentRepository.getCountStudent();
     }
 
-    public Integer getAVGAgeStudent() {
+    public Double getAVGAgeStudent() {
         return studentRepository.getAVGAgeStudent();
     }
 

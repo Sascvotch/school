@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -62,10 +63,15 @@ public class AvatarService {
         return avatarRepository.findByStudentId(studentId).orElseThrow(() -> new AvatarNotFoundException());
     }
 
-    public List<Avatar> findAll (Integer pageNumber, Integer pageSize){
-        PageRequest pageRequest=PageRequest.of(pageNumber-1, pageSize);
-        return avatarRepository.findAll(pageRequest).getContent();
+    public List<Avatar> findAll(Integer pageNumber, Integer pageSize) {
+        List<Avatar> avatars = new ArrayList<Avatar>();
+        if (pageNumber > 0) {
+            PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+            avatars = avatarRepository.findAll(pageRequest).getContent();
+        }
+        return avatars;
     }
+
     private byte[] generatePreview(Path filePath) throws IOException {
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);

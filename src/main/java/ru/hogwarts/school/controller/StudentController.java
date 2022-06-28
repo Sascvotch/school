@@ -68,12 +68,12 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getCountStudent());
     }
 
-    @GetMapping("/AVG-age")
-    public ResponseEntity<Integer> getAVGAgeStudent() {
+    @GetMapping("/avg_age")
+    public ResponseEntity<Double> getAVGAgeStudent() {
         return ResponseEntity.ok(studentService.getAVGAgeStudent());
     }
 
-    @GetMapping("/MAX-id")
+    @GetMapping("/max_id")
     public ResponseEntity<List<Student>> getMAXIdStudent() {
         return ResponseEntity.ok(studentService.getMAXIdStudent());
     }
