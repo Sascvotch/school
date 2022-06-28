@@ -7,7 +7,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -32,13 +31,13 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity <Student> updateStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(student);
         return ResponseEntity.ok(updatedStudent);
     }
 
     @DeleteMapping("/{studentId}")
-    public ResponseEntity <Student> deleteStudent(@PathVariable Long studentId) {
+    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
     }
@@ -50,7 +49,7 @@ public class StudentController {
 
 
     @GetMapping("/age")
-    public ResponseEntity <List<Student>> getStudentByAge(@RequestParam Integer studentAgeMin, @RequestParam(required = false) Integer studentAgeMax) {
+    public ResponseEntity<List<Student>> getStudentByAge(@RequestParam Integer studentAgeMin, @RequestParam(required = false) Integer studentAgeMax) {
         if (studentAgeMax == null) {
             return ResponseEntity.ok(studentService.getStudentByAge(studentAgeMin));
         } else {
@@ -59,8 +58,9 @@ public class StudentController {
     }
 
     @GetMapping("/faculty")
-    public ResponseEntity <Faculty> getFacultyByStudent(@RequestParam Long studentId) {
+    public ResponseEntity<Faculty> getFacultyByStudent(@RequestParam Long studentId) {
         Student student = studentService.getStudentById(studentId).orElseThrow();
         return ResponseEntity.ok(student.getFaculty());
     }
+
 }

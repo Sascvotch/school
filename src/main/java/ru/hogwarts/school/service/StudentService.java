@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
@@ -9,10 +11,6 @@ import java.util.Optional;
 
 @Service
 public class StudentService {
-
-
-    //  private FacultyRepository facultyRepository;
-    //private FacultyService facultyService = new FacultyService(facultyRepository);
 
 
     private final StudentRepository studentRepository;
