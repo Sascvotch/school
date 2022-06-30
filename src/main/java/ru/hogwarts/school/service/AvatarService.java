@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     @Value("$(avatar.dir.path)")
     private String avatarsDir;
     private final AvatarRepository avatarRepository;
@@ -37,6 +41,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.debug("metod uploadAvatar started");
         Student student = studentService.getStudentById(studentId).orElseThrow(() -> new StudentNotFoundException());
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -60,10 +65,12 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.debug("metod findAvatar started");
         return avatarRepository.findByStudentId(studentId).orElseThrow(() -> new AvatarNotFoundException());
     }
 
     public List<Avatar> findAll(Integer pageNumber, Integer pageSize) {
+        logger.debug("metod findAll started");
         List<Avatar> avatars = new ArrayList<Avatar>();
         if (pageNumber > 0) {
             PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
@@ -73,6 +80,7 @@ public class AvatarService {
     }
 
     private byte[] generatePreview(Path filePath) throws IOException {
+        logger.debug("metod generatePreview started");
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -89,6 +97,7 @@ public class AvatarService {
     }
 
     private String getExtensions(String fileName) {
+        logger.debug("metod getExtensions started");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 }
