@@ -28,7 +28,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
-    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     @Value("$(avatar.dir.path)")
     private String avatarsDir;
@@ -42,7 +42,10 @@ public class AvatarService {
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
         logger.debug("metod uploadAvatar started");
-        Student student = studentService.getStudentById(studentId).orElseThrow(() -> new StudentNotFoundException());
+        Student student = studentService.getStudentById(studentId).orElseThrow(() -> {
+            logger.error("There is not student with id = " + studentId);
+            return new StudentNotFoundException();
+        });
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
@@ -54,7 +57,7 @@ public class AvatarService {
         ) {
             bis.transferTo(bos);
         }
-        Avatar avatar = avatarRepository.findByStudentId(studentId).orElse(new Avatar());//findAvatar(studentId);
+        Avatar avatar = avatarRepository.findByStudentId(studentId).orElse(new Avatar());
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
@@ -66,7 +69,10 @@ public class AvatarService {
 
     public Avatar findAvatar(Long studentId) {
         logger.debug("metod findAvatar started");
-        return avatarRepository.findByStudentId(studentId).orElseThrow(() -> new AvatarNotFoundException());
+        return avatarRepository.findByStudentId(studentId).orElseThrow(() -> {
+            logger.error("There is not avatar for student with id = " + studentId);
+           return new AvatarNotFoundException();
+        });
     }
 
     public List<Avatar> findAll(Integer pageNumber, Integer pageSize) {

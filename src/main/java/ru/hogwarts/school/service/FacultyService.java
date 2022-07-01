@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Service
 public class FacultyService {
-    Logger logger = LoggerFactory.getLogger(FacultyService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
     private final FacultyRepository facultyRepository;
 
@@ -54,6 +54,9 @@ public class FacultyService {
 
     public Set<Student> getStudentsByFaculty(Long facultyId) {
         logger.debug("metod getStudentsByFaculty started");
-        return facultyRepository.findById(facultyId).orElseThrow(() -> new FacultyNotFoundException()).getStudents();
+        return facultyRepository.findById(facultyId).orElseThrow(() ->{
+            logger.error("There is not faculty with id = " + facultyId);
+            return new FacultyNotFoundException();
+        }).getStudents();
     }
 }
