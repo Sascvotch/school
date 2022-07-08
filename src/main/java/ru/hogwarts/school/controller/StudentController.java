@@ -78,12 +78,5 @@ public class StudentController {
     public ResponseEntity<List<Student>> getMAXIdStudent() {
         return ResponseEntity.ok(studentService.getMAXIdStudent());
     }
-    @GetMapping("/student_a")
-    public ResponseEntity<List<String>> getStudentWithA() {
-        return ResponseEntity.ok(studentService.getStudentByNameWithA());
-    }
-    @GetMapping("/avg_age_stream")
-    public ResponseEntity<OptionalDouble> getAVGAgeStudentStream() {
-        return ResponseEntity.ok(studentService.getAVGAgeStudentStream());
-    }
+
 }
