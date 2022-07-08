@@ -8,6 +8,9 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -70,5 +73,25 @@ public class StudentService {
         return studentRepository.getMAXIdStudent();
     }
 
+    public List<String> getStudentByNameWithA() {
+        LOGGER.debug("metod getStudentByNameWithA started");
+        List<Student> students = studentRepository.findAll();
+        List<String> studentsWithA = students.stream().parallel()
+                .map(e -> e.getName())
+                .filter(e -> e.charAt(0) == 'A')
+                .sorted((e1, e2) -> e1.compareTo(e2))
+                .map(e -> e.toUpperCase())
+                .collect(Collectors.toList());
+        return studentsWithA;
+    }
+
+    public OptionalDouble getAVGAgeStudentStream() {
+        LOGGER.debug("metod getAVGAgeStudentStream started");
+        List<Student> students = studentRepository.findAll();
+        OptionalDouble avgAge = students.stream().parallel()
+                .mapToDouble(e -> e.getAge())
+                .average();
+        return avgAge;
+    }
 
 }

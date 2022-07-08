@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/student")
@@ -68,7 +69,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getCountStudent());
     }
 
-    @GetMapping("/avg_age")
+    @GetMapping("/avg_age_sql")
     public ResponseEntity<Double> getAVGAgeStudent() {
         return ResponseEntity.ok(studentService.getAVGAgeStudent());
     }
@@ -76,5 +77,13 @@ public class StudentController {
     @GetMapping("/max_id")
     public ResponseEntity<List<Student>> getMAXIdStudent() {
         return ResponseEntity.ok(studentService.getMAXIdStudent());
+    }
+    @GetMapping("/student_a")
+    public ResponseEntity<List<String>> getStudentWithA() {
+        return ResponseEntity.ok(studentService.getStudentByNameWithA());
+    }
+    @GetMapping("/avg_age_stream")
+    public ResponseEntity<OptionalDouble> getAVGAgeStudentStream() {
+        return ResponseEntity.ok(studentService.getAVGAgeStudentStream());
     }
 }

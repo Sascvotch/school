@@ -10,6 +10,7 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.Set;
 
 @Service
@@ -54,9 +55,21 @@ public class FacultyService {
 
     public Set<Student> getStudentsByFaculty(Long facultyId) {
         LOGGER.debug("metod getStudentsByFaculty started");
-        return facultyRepository.findById(facultyId).orElseThrow(() ->{
+        return facultyRepository.findById(facultyId).orElseThrow(() -> {
             LOGGER.error("There is not faculty with id = " + facultyId);
             return new FacultyNotFoundException();
         }).getStudents();
+    }
+
+    public Optional <String> getNameFacultyMax() {
+        LOGGER.debug("metod getNameFacultyMax started");
+        List<Faculty> faculties = facultyRepository.findAll();
+        Optional  <String> nameFacultyMax = faculties.stream().parallel()
+                .map(e -> e.getName())
+                .reduce((e1, e2) -> {
+                    if (e1.length() > e2.length()) return e1;
+                    else return e2;
+                });
+        return nameFacultyMax;
     }
 }
