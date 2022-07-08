@@ -60,15 +60,19 @@ public class FacultyService {
             return new FacultyNotFoundException();
         }).getStudents();
     }
-    public Optional <String> getNameFacultyMax() {
+
+    public String getNameFacultyMax() {
         LOGGER.debug("metod getNameFacultyMax started");
         List<Faculty> faculties = facultyRepository.findAll();
-        Optional  <String> nameFacultyMax = faculties.stream().parallel()
+        String nameFacultyMax = faculties.stream().parallel()
                 .map(e -> e.getName())
                 .reduce((e1, e2) -> {
-                    if (e1.length() > e2.length()) return e1;
-                    else return e2;
-                });
+                    if (e1.length() > e2.length()) {
+                        return e1;
+                    } else {
+                        return e2;
+                    }
+                }).orElseThrow(()->new FacultyNotFoundException());
         return nameFacultyMax;
     }
 }

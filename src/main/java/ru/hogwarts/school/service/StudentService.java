@@ -76,21 +76,22 @@ public class StudentService {
     public List<String> getStudentByNameWithA() {
         LOGGER.debug("metod getStudentByNameWithA started");
         List<Student> students = studentRepository.findAll();
-        List<String> studentsWithA = students.stream().parallel()
+        List<String> studentsWithA = students.stream()
                 .map(e -> e.getName())
-                .filter(e -> e.charAt(0) == 'A')
+                .filter(e -> e.startsWith("A"))
                 .sorted((e1, e2) -> e1.compareTo(e2))
                 .map(e -> e.toUpperCase())
                 .collect(Collectors.toList());
         return studentsWithA;
     }
 
-    public OptionalDouble getAVGAgeStudentStream() {
+    public Double getAVGAgeStudentStream() {
         LOGGER.debug("metod getAVGAgeStudentStream started");
         List<Student> students = studentRepository.findAll();
-        OptionalDouble avgAge = students.stream().parallel()
+        Double avgAge = students.stream()
                 .mapToDouble(e -> e.getAge())
-                .average();
+                .average()
+                .getAsDouble();
         return avgAge;
     }
 

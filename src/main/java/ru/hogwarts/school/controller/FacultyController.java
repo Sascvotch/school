@@ -57,7 +57,7 @@ public class FacultyController {
   }
 
     @GetMapping("/getNameFacultyMax")
-    public ResponseEntity <Optional <String>> getNameFacultyMax() {
+    public ResponseEntity <String> getNameFacultyMax() {
         return ResponseEntity.ok(facultyService.getNameFacultyMax());
     }
 }

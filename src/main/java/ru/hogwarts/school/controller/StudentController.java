@@ -83,7 +83,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentByNameWithA());
     }
     @GetMapping("/avg_age_stream")
-    public ResponseEntity<OptionalDouble> getAVGAgeStudentStream() {
+    public ResponseEntity<Double> getAVGAgeStudentStream() {
         return ResponseEntity.ok(studentService.getAVGAgeStudentStream());
     }
 }
