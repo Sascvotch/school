@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Service
 public class FacultyService {
-    private static final Logger logger = LoggerFactory.getLogger(FacultyService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FacultyService.class);
 
     private final FacultyRepository facultyRepository;
 
@@ -23,39 +23,39 @@ public class FacultyService {
     }
 
     public Faculty createFaculty(Faculty faculty) {
-        logger.debug("metod createFaculty started");
+        LOGGER.debug("metod createFaculty started");
         return facultyRepository.save(faculty);
     }
 
     public Optional<Faculty> getFacultyById(Long facultyId) {
-        logger.debug("metod getFacultyById started");
+        LOGGER.debug("metod getFacultyById started");
         return facultyRepository.findById(facultyId);
     }
 
     public Faculty updateFaculty(Long facultyId, Faculty faculty) {
-        logger.debug("metod updateFaculty started");
+        LOGGER.debug("metod updateFaculty started");
         return facultyRepository.save(faculty);
     }
 
     public void deleteFaculty(Long facultyId) {
-        logger.debug("metod deleteFaculty started");
+        LOGGER.debug("metod deleteFaculty started");
         facultyRepository.deleteById(facultyId);
     }
 
     public List<Faculty> getFacultyByColor(String facultyColor) {
-        logger.debug("metod getFacultyByColor started");
+        LOGGER.debug("metod getFacultyByColor started");
         return facultyRepository.findByColor(facultyColor);
     }
 
     public List<Faculty> getFacultyByNameOrColor(String facultyNameOrColor) {
-        logger.debug("metod getFacultyByNameOrColor started");
+        LOGGER.debug("metod getFacultyByNameOrColor started");
         return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(facultyNameOrColor, facultyNameOrColor);
     }
 
     public Set<Student> getStudentsByFaculty(Long facultyId) {
-        logger.debug("metod getStudentsByFaculty started");
+        LOGGER.debug("metod getStudentsByFaculty started");
         return facultyRepository.findById(facultyId).orElseThrow(() ->{
-            logger.error("There is not faculty with id = " + facultyId);
+            LOGGER.error("There is not faculty with id = " + facultyId);
             return new FacultyNotFoundException();
         }).getStudents();
     }
