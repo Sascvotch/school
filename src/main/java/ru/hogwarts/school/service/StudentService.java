@@ -115,10 +115,10 @@ public class StudentService {
             studentService.printName(5, students.get(5));
         }).start();
 
-       // students.stream().parallel()
-         //       .map(e -> e.getName())
-           //     .peek(e -> System.out.println(e))
-             //   .collect(Collectors.toList());
+        // students.stream().parallel()
+        //       .map(e -> e.getName())
+        //     .peek(e -> System.out.println(e))
+        //   .collect(Collectors.toList());
 
 
         //  Runnable task=()-> {
@@ -156,7 +156,31 @@ public class StudentService {
         //}).start();
     }
 
+    public void getStudentsNameSynch() {
+        LOGGER.debug("metod getStudentsNameSynch started");
+        List<Student> students = studentRepository.findAll();
+        final StudentService studentService = new StudentService(studentRepository);
+
+        studentService.printNameSynch(0, students.get(0));
+        studentService.printNameSynch(1, students.get(1));
+        new Thread(() -> {
+            studentService.printNameSynch(2, students.get(2));
+            studentService.printNameSynch(3, students.get(3));
+        }).start();
+        new Thread(() -> {
+            studentService.printNameSynch(4, students.get(4));
+            studentService.printNameSynch(5, students.get(5));
+        }).start();
+
+    }
+
     private void printName(int number, Student student) {
         System.out.println(number + " " + student.getName());
+    }
+
+    private void printNameSynch(int number, Student student) {
+        synchronized (StudentService.class) {
+            System.out.println(number + " " + student.getName());
+        }
     }
 }

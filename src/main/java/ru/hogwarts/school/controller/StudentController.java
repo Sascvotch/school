@@ -86,8 +86,12 @@ public class StudentController {
     public ResponseEntity<Double> getAVGAgeStudentStream() {
         return ResponseEntity.ok(studentService.getAVGAgeStudentStream());
     }
-    @GetMapping("/student_name")
+    @GetMapping("/student_name_par")
     public void getStudentsName() {
         studentService.getStudentsName();
+    }
+    @GetMapping("/student_name_synch")
+    public void getStudentsNameSynch() {
+        studentService.getStudentsNameSynch();
     }
 }
