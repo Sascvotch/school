@@ -73,4 +73,26 @@ public class StudentService {
         return studentRepository.getMAXIdStudent();
     }
 
+    public List<String> getStudentByNameWithA() {
+        LOGGER.debug("metod getStudentByNameWithA started");
+        List<Student> students = studentRepository.findAll();
+        List<String> studentsWithA = students.stream()
+                .map(e -> e.getName())
+                .filter(e -> e.startsWith("A"))
+                .sorted((e1, e2) -> e1.compareTo(e2))
+                .map(e -> e.toUpperCase())
+                .collect(Collectors.toList());
+        return studentsWithA;
+    }
+
+    public Double getAVGAgeStudentStream() {
+        LOGGER.debug("metod getAVGAgeStudentStream started");
+        List<Student> students = studentRepository.findAll();
+        Double avgAge = students.stream()
+                .mapToDouble(e -> e.getAge())
+                .average()
+                .getAsDouble();
+        return avgAge;
+    }
+
 }
