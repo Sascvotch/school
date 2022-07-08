@@ -86,4 +86,8 @@ public class StudentController {
     public ResponseEntity<Double> getAVGAgeStudentStream() {
         return ResponseEntity.ok(studentService.getAVGAgeStudentStream());
     }
+    @GetMapping("/student_name")
+    public void getStudentsName() {
+        studentService.getStudentsName();
+    }
 }

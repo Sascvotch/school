@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.jboss.jandex.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,8 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class StudentService {
@@ -95,4 +95,68 @@ public class StudentService {
         return avgAge;
     }
 
+    public void getStudentsName() {
+        LOGGER.debug("metod getStudentsName started");
+        List<Student> students = studentRepository.findAll();
+        final StudentService studentService = new StudentService(studentRepository);
+
+        studentService.printName(0, students.get(0));
+        studentService.printName(1, students.get(1));
+        new Thread(() -> {
+            System.out.println(Thread.currentThread().getName());
+            studentService.printName(2, students.get(2));
+            System.out.println(Thread.currentThread().getName());
+            studentService.printName(3, students.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println(Thread.currentThread().getName());
+            studentService.printName(4, students.get(4));
+            System.out.println(Thread.currentThread().getName());
+            studentService.printName(5, students.get(5));
+        }).start();
+
+       // students.stream().parallel()
+         //       .map(e -> e.getName())
+           //     .peek(e -> System.out.println(e))
+             //   .collect(Collectors.toList());
+
+
+        //  Runnable task=()-> {
+        //    System.out.println("0" + students.get(0).getName());
+        //  System.out.println("1" + students.get(1).getName());
+        //   };
+        // Thread th1 = new Thread(task);
+        // th1.start();
+
+        // Runnable task2=()-> {
+        //   System.out.println("2" + students.get(2).getName());
+        //  System.out.println("3" + students.get(3).getName());
+        // };
+        //Thread th2 = new Thread(task2);
+        // th2.start();
+
+        // Runnable task3=()-> {
+        //   System.out.println("4" + students.get(4).getName());
+        // System.out.println("5" + students.get(5).getName());
+        // };
+        // Thread th3 = new Thread(task3       );
+        //th3.start();
+        //   printName(0,students.get(0));
+
+
+        //   System.out.println("0"+students.get(0).getName());
+        //   System.out.println("1"+students.get(1).getName());
+        //   new Thread(() -> {
+        //     System.out.println("2"+students.get(2).getName());
+        //   System.out.println("3"+students.get(3).getName());
+        // }).start();
+        //new Thread(() -> {
+        //  System.out.println("4"+students.get(4).getName());
+        // System.out.println("5"+students.get(5).getName());
+        //}).start();
+    }
+
+    private void printName(int number, Student student) {
+        System.out.println(number + " " + student.getName());
+    }
 }
