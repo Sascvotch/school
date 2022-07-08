@@ -13,7 +13,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.AvatarRepository;
 
 import javax.imageio.ImageIO;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,7 +27,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
-    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
 
     @Value("$(avatar.dir.path)")
     private String avatarsDir;
@@ -41,9 +40,9 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
-        logger.debug("metod uploadAvatar started");
+        LOGGER.debug("metod uploadAvatar started");
         Student student = studentService.getStudentById(studentId).orElseThrow(() -> {
-            logger.error("There is not student with id = " + studentId);
+            LOGGER.error("There is not student with id = " + studentId);
             return new StudentNotFoundException();
         });
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -68,15 +67,15 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
-        logger.debug("metod findAvatar started");
+        LOGGER.debug("metod findAvatar started");
         return avatarRepository.findByStudentId(studentId).orElseThrow(() -> {
-            logger.error("There is not avatar for student with id = " + studentId);
+            LOGGER.error("There is not avatar for student with id = " + studentId);
            return new AvatarNotFoundException();
         });
     }
 
     public List<Avatar> findAll(Integer pageNumber, Integer pageSize) {
-        logger.debug("metod findAll started");
+        LOGGER.debug("metod findAll started");
         List<Avatar> avatars = new ArrayList<Avatar>();
         if (pageNumber > 0) {
             PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
@@ -86,7 +85,7 @@ public class AvatarService {
     }
 
     private byte[] generatePreview(Path filePath) throws IOException {
-        logger.debug("metod generatePreview started");
+        LOGGER.debug("metod generatePreview started");
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -103,7 +102,7 @@ public class AvatarService {
     }
 
     private String getExtensions(String fileName) {
-        logger.debug("metod getExtensions started");
+        LOGGER.debug("metod getExtensions started");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 }
